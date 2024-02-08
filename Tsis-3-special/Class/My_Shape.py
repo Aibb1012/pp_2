@@ -27,9 +27,20 @@ class Rectangle(My_Shape):
         return (f'The color is {self.color} , Is filled: {self.is_filled}, Top Left:({self.x_top_left} , {self.y_top_left}) , Length={self.length} , Width={self.width}')
     def getArea(self):
         return self.length*self.width
-givenrectangle = Rectangle('black' , False , 1 , 0 , 2 , 6)
-print("The area of Rectangle:" , givenrectangle.getArea())
-print(givenrectangle)
+
+def input_Rectangle_datas():
+    color = input('Enter the color of your rectangle: ')
+    is_filled = bool(input("Is your rectangle filled (True/False): "))
+    x_top_left = float(input("Enter the top left of value x: "))
+    y_top_left = float(input("Enter the top left of value y: "))
+    length = float(input("Enter the length of your Rectangle: "))
+    width = float(input("Enter the width of your Rectangle: "))
+    return Rectangle(color , is_filled , x_top_left , y_top_left , length , width)
+
+givenrectangle = input_Rectangle_datas()
+print(givenrectangle , "The area of Rectangle:" , givenrectangle.getArea())
+# print(givenrectangle)
+
 class Circle(My_Shape):
     def __init__(self, color, is_filled , x_center, y_center, radius):
         super().__init__(color, is_filled)
