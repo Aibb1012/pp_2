@@ -1,16 +1,16 @@
-# iters_gens_1
+# even numbers_gen
 def generatee(n):
     index = 0
     while index<n:
         yield index
         index+=1
-
-def make_square(k):
+def is_even(k):
     for i in k:
-        yield i**2
+        if i%2==0 and i!=0:
+            yield i
 
 b=int(input())
 n = generatee(b)
-k = make_square(n)
+k = is_even(n)
 for i in k:
-    print(i)
+    print(f"{i:_}", end=", ")
