@@ -68,7 +68,7 @@ def draw_menu(color, size):
     pygame.draw.rect(screen, white, [315, 15, 40, 40])  
 
     color_rect = [bl, rd, gr, ye, tl, prp, wh, blc,eqtrian_button ,rtriang_button,rhombus_button,circle_button, rectangle_button]  
-    rgb_list = [blue, red, green, yellow, teal, purple, white, black, None, None , None , None] 
+    rgb_list = [blue, red, green, yellow, teal, purple, white, black, None, None , None , None , None] 
     
     return brush_list, color_rect, rgb_list
 

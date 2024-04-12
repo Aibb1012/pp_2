@@ -37,7 +37,7 @@ game_over = font.render("Game Over", True, BLACK)
 class Moneyy(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.x = random.randint(50 , 150)
+        self.x = random.randint(30 , 250)
         self.image = pygame.image.load("coin.png")
         
         self.rect = self.image.get_rect()
@@ -48,16 +48,18 @@ class Moneyy(pygame.sprite.Sprite):
         if (self.rect.bottom > 600):
             self.rect.top = 0
             self.rect.center = (random.randint(30, 370), 0)
+            # self.image = pygame.transform.scale(self.image, (self.x,self.x))
     #special function for collide        
-    def nextCoin(self):
+    def nextCoin(self , x):
         self.rect.center = (random.randint(40,SCREEN_WIDTH-40),0)
-        self.image = pygame.transform.scale(self.image, (self.x,self.x))
+        self.image = pygame.transform.scale(self.image, (x , x))
 class Enemy(pygame.sprite.Sprite):
       def __init__(self):
         super().__init__() 
         self.image = pygame.image.load("enemy.png")
         self.rect = self.image.get_rect()
         self.rect.center=(random.randint(40,SCREEN_WIDTH-40),0) 
+        
  
       def move(self):
         global SCORE
@@ -130,7 +132,12 @@ while True:
     for entity in all_sprites:
         DISPLAYSURF.blit(entity.image, entity.rect)
         entity.move()
- 
+        if pygame.sprite.spritecollideany(P1 ,moneys):
+        # time.sleep(0.1)
+            x = random.randint(30 , 150)
+            C1.nextCoin(x)
+            coins +=1
+            time.sleep(0.1)
     #To be run if collision occurs between Player and Enemy
     if pygame.sprite.spritecollideany(P1, enemies):
         pygame.mixer.Sound('crash.mp3').play()
@@ -145,11 +152,6 @@ while True:
         pygame.quit()
         sys.exit()
     
-    if pygame.sprite.spritecollideany(P1 ,moneys):
-        # time.sleep(0.1)
-        C1.nextCoin()
-        
-        coins +=1
-        time.sleep(0.1)
+    
     pygame.display.update()
     FramePerSec.tick(FPS)
