@@ -21,7 +21,7 @@ WHITE = (255, 255, 255)
 SCREEN_WIDTH = 400
 SCREEN_HEIGHT = 600
 SPEED = 5
-SCORE = 0
+SCORE = 1
 coins = 0
 background = pygame.image.load("road.png")
 DISPLAYSURF = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT))
@@ -71,7 +71,7 @@ class Enemy(pygame.sprite.Sprite):
  
        
  
- 
+#class for playing movement
 class Player(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__() 
@@ -109,41 +109,50 @@ all_sprites.add(P1)
 all_sprites.add(E1)
 all_sprites.add(C1)
 
-#Adding a new User event 
+#Adding a new User event for speed
 INC_SPEED = pygame.USEREVENT + 1
-pygame.time.set_timer(INC_SPEED, 1000)
+pygame.time.set_timer(INC_SPEED, 2000)
 
 #Game Loop
 while True:     
     for event in pygame.event.get():
-        if event.type == INC_SPEED:
-              SPEED += 0.5              
+        # if event.type == INC_SPEED:
+        #       SPEED += 0.5              
         if event.type == QUIT:
             pygame.quit()
             sys.exit()
 
+    #Bliting texts
     DISPLAYSURF.blit(background, (0,0))
-    scores = font_small.render("Dodges:"+ str(SCORE), True, GREEN)
+    scores = font_small.render("Score:"+ str(SCORE), True, GREEN)
     money = font_small.render("Coins:" + str(coins) , True , WHITE)
     DISPLAYSURF.blit(scores, (10,10))
     # DISPLAYSURF.blit(total_coins , (10 , 60))
     DISPLAYSURF.blit(money , (10 , 62))
+    if SCORE%3 ==0:
+        congrat = font_small.render("Congratulations" , True , RED)
+        DISPLAYSURF.blit(congrat , (SCREEN_WIDTH-200 , 10))
+        # time.sleep(0.2)
     #Moves and Re-draws all Sprites
     for entity in all_sprites:
         DISPLAYSURF.blit(entity.image, entity.rect)
         entity.move()
         if pygame.sprite.spritecollideany(P1 ,moneys):
         # time.sleep(0.1)
-            x = random.randint(30 , 150)
+            x = random.randint(50 , 150)
             C1.nextCoin(x)
-            coins +=1
+            coins +=x//13
+            if coins%5==0:
+                SPEED+=0.5
             time.sleep(0.1)
+
     #To be run if collision occurs between Player and Enemy
     if pygame.sprite.spritecollideany(P1, enemies):
         pygame.mixer.Sound('crash.mp3').play()
         time.sleep(0.5)
         DISPLAYSURF.fill(RED)
         DISPLAYSURF.blit(game_over, (30,250))
+        DISPLAYSURF.blit(scores , (60 , 320))
         pygame.display.update()
         for entity in all_sprites:
                 entity.kill() 
